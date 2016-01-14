@@ -1,0 +1,23 @@
+{
+  "name": "gulp-extract-path",
+  "version": "1.0.0",
+  "description": "提取文件里面引用的文件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/think2011/gulp-extract-path.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/think2011/gulp-extract-path/issues"
+  },
+  "homepage": "https://github.com/think2011/gulp-extract-path#readme",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "through2": "^2.0.0"
+  }
+}

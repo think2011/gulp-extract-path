@@ -1,4 +1,6 @@
+"use strict";
 const through = require('through2');
+const gulp    = require('gulp');
 const path    = require('path');
 
 /**
