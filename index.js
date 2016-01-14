@@ -24,6 +24,8 @@ module.exports = function (rootPath) {
             return path.join(rootPath, v.substr(1, v.length - 2));
         });
 
+        that.push(file);
+
         gulp.src(filesDir, {read: file, base: rootPath}).pipe(through.obj((file, enc, cb)=> {
             that.push(file);
             cb();

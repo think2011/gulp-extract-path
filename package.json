@@ -1,6 +1,6 @@
 {
   "name": "gulp-extract-path",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "提取文件里面引用的文件",
   "main": "index.js",
   "scripts": {
