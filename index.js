@@ -20,11 +20,13 @@ module.exports = function (rootPath) {
         }
 
         let content  = file.contents.toString();
-        let filesDir = content.match(/[^"'\s)]*\.(css|js)/g).filter(v => {
-            return !(v.startsWith('http') || v.startsWith('//'));
-        });
+        let filesDir = content.match(/[^"'\s)]*\.(css|js)/g)
+            .filter(v => {
+                return !(v.startsWith('http') || v.startsWith('//'));
+            }).map(v => path.join(rootPath, v));
 
 
+        console.log(filesDir);
         that.push(file);
 
         gulp.src(filesDir, {read: file, base: rootPath}).pipe(through.obj((file, enc, cb)=> {
