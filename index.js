@@ -20,9 +20,10 @@ module.exports = function (rootPath) {
         }
 
         let content  = file.contents.toString();
-        let filesDir = content.match(/['|"].*\.(.*)['|"]/g).map((v) => {
-            return path.join(rootPath, v.substr(1, v.length - 2));
+        let filesDir = content.match(/[^"'\s)]*\.(css|js)/g).filter(v => {
+            return !(v.startsWith('http') || v.startsWith('//'));
         });
+
 
         that.push(file);
 
