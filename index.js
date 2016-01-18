@@ -14,18 +14,13 @@ const path    = require('path');
 module.exports = function (rootPath) {
     return through.obj(function (file, enc, cb) {
         let that = this;
-
-        if (file.isNull()) {
-            cb(null, file);
-        }
-
         let content  = file.contents.toString();
         let match = content.match(/[^"'\s)]*\.(css|js)/g);
 
-        if(match.length === 0) {
-            return cb(null, file);
+        if (file.isNull() || !match) {
+            cb(null, file);
         }
-
+        
         let filesDir = match
             .filter(v => {
                 return !(v.startsWith('http') || v.startsWith('//'));
