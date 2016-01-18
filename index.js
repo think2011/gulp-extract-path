@@ -18,9 +18,9 @@ module.exports = function (rootPath) {
         let match = content.match(/[^"'\s)]*\.(css|js)/g);
 
         if (file.isNull() || !match) {
-            cb(null, file);
+            return cb(null, file);
         }
-        
+
         let filesDir = match
             .filter(v => {
                 return !(v.startsWith('http') || v.startsWith('//'));
