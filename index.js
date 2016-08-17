@@ -1,7 +1,8 @@
 "use strict";
-const through = require('through2');
-const gulp    = require('gulp');
-const path    = require('path');
+const through   = require('through2')
+const fs        = require('fs')
+const path      = require('path')
+const vinylFile = require('vinyl-file')
 
 /**
  * 提取文件中引用的文件
@@ -13,24 +14,30 @@ const path    = require('path');
  */
 module.exports = function (rootPath) {
     return through.obj(function (file, enc, cb) {
-        let that = this;
-        let content  = file.contents.toString();
-        let match = content.match(/[^"'\s)]*\.(css|js)/g);
+        let that    = this
+        let content = file.contents.toString()
+        let match   = content.match(/[^"'\s)]*\.(css|js)(?:'|")/g)
 
         if (file.isNull() || !match) {
-            return cb(null, file);
+            return cb(null, file)
         }
 
-        let filesDir = match
-            .filter(v => {
-                return !(v.startsWith('http') || v.startsWith('//'));
-            }).map(v => path.join(rootPath, v));
+        let files = match
+            .filter(v => !(v.startsWith('http') || v.startsWith('//')))
+            .map(v => {
+                let filePath = path.join(process.cwd(), rootPath, v)
+                filePath     = filePath.substr(filePath, filePath.length - 1)
 
-        that.push(file);
+                if (fs.existsSync(filePath)) {
+                    let file  = vinylFile.readSync(filePath)
+                    file.base = path.join(process.cwd(), rootPath)
 
-        gulp.src(filesDir, {read: file, base: rootPath}).pipe(through.obj((file, enc, cb)=> {
-            that.push(file);
-            cb();
-        })).on('finish', cb)
+                    return file
+                }
+
+            })
+
+        files.forEach((item) => item && that.push(item))
+        cb()
     });
 };
